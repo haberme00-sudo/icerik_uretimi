@@ -1,4 +1,4 @@
-<!-- Kaynak: https://smokich.gosem.dev/stil/#stiller — stil: Parçacık (parcacik). Yer tutucular CLAUDE.md §4'e göre doldurulur. -->
+<!-- Kaynak: https://smokich.gosem.dev/stil/#stiller — stil: Parçacık (parcacik). Yer tutucular CLAUDE.md §0 "Stil dosyasındaki yer tutucular" kısmına göre doldurulur. -->
 
 # TASK
 

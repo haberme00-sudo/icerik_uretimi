@@ -1,8 +1,7 @@
-> **Uzaktan okunan sürüm.** Bu dosya ve stil dosyaları GitHub reposundan okunur; klasörde yerel kopyaları yoktur. Repoda klasör yok, her şey tek seviyede:
-> - `stiller/README.md` → repodaki `stil-katalog.md`
-> - `stiller/<id>.md` → repodaki `stil-<id>.md` (ör. `stil-izometrik.md`)
-> - `stil` skill'i (`.claude/skills/stil/SKILL.md`) → repodaki `stil-skill.md`
-> Bu dosyaları diske kaydetme; her seferinde repodan yeniden oku.
+> **Uzaktan okunan sürüm.** Bu dosya ve stil dosyaları GitHub reposundan okunur; klasörde yerel kopyaları yoktur.
+> Adres kökü (aşağıda **REPO**): `https://raw.githubusercontent.com/haberme00-sudo/icerik_uretimi/main/`
+> Repoda klasör yok, her şey tek seviyede: `CLAUDE.md` (bu dosya), `stil-katalog.md`, `stil-<id>.md` (11 stil), `stil-skill.md`, `logo.md`.
+> Dosyaları Bash'te `curl -s REPO<dosya>` ile birebir oku (WebFetch özetler, kullanma). Diske veya hafızaya kaydetme; her seferinde repodan yeniden oku.
 
 # Stil Tabanlı Video Üretim Klasörü
 
@@ -10,7 +9,7 @@ Bu klasör, Claude Code ile **istenen herhangi bir konuda**, seçilen bir **gör
 (varsayılan: Reels/Shorts için dikey 1080×1920, 30 fps, H.264 + AAC).
 Kullanıcı teknik bilgi sahibi olmayabilir; kısa Türkçe isteklerle çalışır. Her şeyi bu dosyadaki yolla sen yaparsın.
 
-> Bu dosya klasörle birlikte taşınır; Claude Code hafızası (`~/.claude/...`) taşınmaz. Bilinmesi gereken her şey burada.
+> Klasördeki yerel `CLAUDE.md` yalnızca bu dosyayı okutan kısa bir yönlendirmedir; Claude Code hafızası (`~/.claude/...`) kullanılmaz. Bilinmesi gereken her şey burada.
 
 ---
 
@@ -18,8 +17,8 @@ Kullanıcı teknik bilgi sahibi olmayabilir; kısa Türkçe isteklerle çalış�
 
 | Kullanıcı ne verdi? | Ne yap |
 |---|---|
-| **Konu + stil adı** ("izometrik stilde su musluğa nasıl gelir") | Stili `stiller/<id>.md` dosyasından al → §2 |
-| **Konu + resim** (poster, reklam, video karesi) | `stil` skill'ini çalıştır (Skill aracı, ad: `stil`) → resimden `stil-prompt.md` üret → §2 |
+| **Konu + stil adı** ("izometrik stilde su musluğa nasıl gelir") | Stili `REPO` + `stil-<id>.md` dosyasından al (ör. `stil-izometrik.md`) → §2 |
+| **Konu + resim** (poster, reklam, video karesi) | `REPO` + `stil-skill.md` dosyasını oku ve oradaki adımları uygula → resimden `stil-prompt.md` üret → §2 |
 | **Uzun stil promptu yapıştırdı** (`# TASK … # 1. PROJECT CONFIGURATION …`) | Doğrudan §2 |
 | **Konu var, stil yok, resim yok** | **Sor** (aşağıdaki kalıp). Stil seçmeden başlama. |
 | **Konu da yok** | Konuyu ve stili birlikte sor; istenirse stilin "örnek konu"sunu öner |
@@ -29,7 +28,7 @@ Kullanıcı teknik bilgi sahibi olmayabilir; kısa Türkçe isteklerle çalış�
 > 1 Kâğıt Poster · 2 Kesik Kâğıt · 3 Konstrüktivist · 4 Bilim Atlası · 5 Risograf · 6 İzometrik Çizim · 7 Düz Vektör · 8 Kinetik Tipografi · 9 Sıvı Cam · 10 ASCII Atlas · 11 Parçacık
 > (Ya da beğendiğin bir görseli at, onun tarzını çıkarayım.)
 
-Gerekirse her stilin bir satırlık tanımını ve "en iyi olduğu konuları" [stiller/README.md](stiller/README.md)'den ekle; konuya uyanı öner.
+Gerekirse her stilin bir satırlık tanımını ve "en iyi olduğu konuları" `REPO` + `stil-katalog.md` dosyasından ekle; konuya uyanı öner.
 
 ### Varsayılan ayarlar (kullanıcı başka demedikçe)
 | Ayar | Varsayılan | Not |
@@ -59,7 +58,7 @@ Stil promptları (ve `stil` skill'inin ortak gövdesi) başka bir ortam varsayar
 | "Voiceover: the recording is in this folder" | Kayıt yoksa senaryoyu sen yaz (konuya göre, doğru bilgi), ai33 ile seslendir |
 | Openverse'ten CC0 ses | Olur — `sesler.mjs`, kaynaklar `CREDITS.md`'ye |
 | "Do not synthesize music" | Müzik açıksa `kaynaklar/muzik/*.wav` (önceden üretilmiş, telifsiz) |
-| Marka logosu gerekiyorsa yükleme kontrolü | Kullanıcıdan dosyayı `kaynaklar/referans/` içine koymasını iste |
+| Konuda başka bir markanın logosu gerekiyorsa | (Solar Insider logosu `logo.md`'de, buna dahil değil.) Kullanıcıdan dosyayı `kaynaklar/referans/` içine koymasını iste |
 
 ---
 
@@ -68,8 +67,8 @@ Stil promptları (ve `stil` skill'inin ortak gövdesi) başka bir ortam varsayar
 
 1. **Prompt:** stil dosyasını doldur → `animasyonlar/<ad>/stil-prompt.md`. Promptun stil bölümlerini (görsel dil, hareket, teknik uygulama, kaçınılacaklar) dikkatle uygula.
 2. **Senaryo + sahne planı:** konu için doğru bilgiyle 6 bölüm civarı, ~450–520 karakterlik anlatım (≈35–40 sn). Uygun 2–4 yerde duygu etiketi (§3). Sahne tablosu: | Sahne | Zaman | Anlatılan | Kompozisyon | Çizim/hareket | Kamera/geçiş | Ekrandaki yazı | Ses |
-3. **`index.html`:** sahneleri stilin diliyle yeniden yaz (Canvas 2D / SVG / Three.js — stile göre). Kurallar: `window.seek(t)` aynı t için hep aynı kareyi çizer (requestAnimationFrame, Date.now, Math.random yok; tohumlu rastgele kullan). Tasarım çizelgesi `u` (0–30) birimiyle yaz; seslendirme varsa `seslendirme.js` haritası `u`'yu gerçek saniyeye bağlar (örnekteki `haritala`). Şablondaki çizim motoru (izdüşüm, kısmi çizgi çizimi `yol`, yüz dolgusu, `cagri` etiketleri, `yazi`, başlık sistemi) uyarlanabilir; stil başka bir görünüm istiyorsa (kâğıt dokusu, mürekkep, cam kırılması, parçacık) o tekniği prompttaki "technical implementation" bölümüne göre kur. Yazılar Türkçe; büyük harfte `toLocaleUpperCase("tr-TR")`. Font dosyasını klasöre koy (örnekte `Inter.ttf`; stilin istediği ücretsiz fontu Google Fonts'tan indirip ekleyebilirsin).
-4. **Storyboard:** `node render.mjs storyboard [t1 t2 …]` → `storyboard/kare-*.png` + `temas-tablosu.png`. Görüntüle, kesilen yazı/çakışma varsa düzelt. Sahne tablosu + temas tablosu yolunu göster → **dur, onay iste**.
+3. **`index.html`:** **Her videoya logo gömülür: `REPO` + `logo.md` dosyasını oku ve uygula (atlanmaz).** Sahneleri stilin diliyle yeniden yaz (Canvas 2D / SVG / Three.js — stile göre). Kurallar: `window.seek(t)` aynı t için hep aynı kareyi çizer (requestAnimationFrame, Date.now, Math.random yok; tohumlu rastgele kullan). Tasarım çizelgesi `u` (0–30) birimiyle yaz; seslendirme varsa `seslendirme.js` haritası `u`'yu gerçek saniyeye bağlar (örnekteki `haritala`). Şablondaki çizim motoru (izdüşüm, kısmi çizgi çizimi `yol`, yüz dolgusu, `cagri` etiketleri, `yazi`, başlık sistemi) uyarlanabilir; stil başka bir görünüm istiyorsa (kâğıt dokusu, mürekkep, cam kırılması, parçacık) o tekniği prompttaki "technical implementation" bölümüne göre kur. Yazılar Türkçe; büyük harfte `toLocaleUpperCase("tr-TR")`. Font dosyasını klasöre koy (örnekte `Inter.ttf`; stilin istediği ücretsiz fontu Google Fonts'tan indirip ekleyebilirsin).
+4. **Storyboard:** `node render.mjs storyboard [t1 t2 …]` → `storyboard/kare-*.png` + `temas-tablosu.png`. Görüntüle; kesilen yazı/çakışma varsa ya da logo herhangi bir karede eksik/kesikse düzelt. Sahne tablosu + temas tablosu yolunu göster → **dur, onay iste**.
 5. **Seslendirme:** `seslendirme.mjs` başındaki `METIN` ve `CAPALAR`'ı yaz (çapa: "bu kelime söylendiğinde animasyon bu `u` anında olsun"; aynı kelimenin kaçıncı geçişi olduğuna dikkat; sıra hem saniyede hem `u`'da artmalı) → `node seslendirme.mjs`.
 6. **Kontrol:** `node render.mjs kontrol` → `kontrol/temas-tablosu.png` (1,5 sn'de bir kare). Özellikle sahne geçişlerinde hayalet bindirmeye (iki sahne yarı saydam üst üste) ve kesilen etiketlere bak; geçişleri sıralı yap.
 7. **Render + ses:** `node render.mjs video` (~1200 kare ≈ 4–5 dk) → `sesler.mjs`'de `OLAYLAR` (u zamanı, ses, seviye) ve `SESLER` (Openverse CC0 kimlikleri; aramak için `https://api.openverse.org/v1/audio/?q=<terim>&license=cc0&page_size=12`) → `node sesler.mjs` → dublaj + efektler + loudnorm (-15 LUFS, 48 kHz) → `out/final.mp4`.
@@ -106,12 +105,12 @@ Komutları `animasyonlar/<ad>/` içinde, `../../araclar/node/node.exe <script>` 
 
 ## 6. Klasör haritası
 ```
-CLAUDE.md                bu dosya (Claude'un kılavuzu)
+CLAUDE.md                yalnızca bu uzak kılavuzu okutan kısa yönlendirme
 README.md                kullanıcı için başlangıç kılavuzu
+(repoda) stil-katalog.md, stil-<id>.md, stil-skill.md   11 stil + katalog + resimden stil çıkarma adımları — kaynak: https://smokich.gosem.dev/stil/#stiller
+(repoda) logo.md          her videoya gömülen Solar Insider logosu + yerleşim kuralları
 .env                     ai33 API anahtarı (gizli)
 ayarlar.json             seslendirme sesi ve hızı
-stiller/                 11 stilin promptları + katalog (README.md) — kaynak: https://smokich.gosem.dev/stil/#stiller
-.claude/skills/stil/     resimden stil çıkaran skill
 animasyonlar/<ad>/       her video: stil-prompt.md, index.html, render.mjs, seslendirme.mjs, sesler.mjs, out/final.mp4
 kaynaklar/referans/      kullanıcının verdiği görseller
 kaynaklar/muzik, sfx/    kodla üretilmiş telifsiz müzik ve efektler
