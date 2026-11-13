@@ -1,6 +1,6 @@
 > **Uzaktan okunan sürüm.** Bu dosya ve stil dosyaları GitHub reposundan okunur; klasörde yerel kopyaları yoktur.
 > Adres kökü (aşağıda **REPO**): `https://raw.githubusercontent.com/haberme00-sudo/icerik_uretimi/main/`
-> Repoda klasör yok, her şey tek seviyede: `CLAUDE.md` (bu dosya), `stil-katalog.md`, `stil-<id>.md` (11 stil), `stil-skill.md`, `logo.md`.
+> Repoda klasör yok, her şey tek seviyede: `CLAUDE.md` (bu dosya), `stil-katalog.md`, `stil-<id>.md` (11 stil), `stil-skill.md`, `logo.md`, `seslendirme.mjs`, `ayarlar.json`.
 > Dosyaları Bash'te `curl -s REPO<dosya>` ile birebir oku (WebFetch özetler, kullanma). Diske veya hafızaya kaydetme; her seferinde repodan yeniden oku.
 
 # Stil Tabanlı Video Üretim Klasörü
@@ -54,8 +54,8 @@ Stil promptları (ve `stil` skill'inin ortak gövdesi) başka bir ortam varsayar
 |---|---|
 | HTML Artifact, oynatma kontrolleri, MediaRecorder, WebCodecs | Yok sayılır → `index.html` + `window.seek(t)` + `render.mjs` |
 | Puppeteer/Playwright kur, Chrome indir; ffmpeg "eksikse kur" | **Kurma.** puppeteer-core + Chrome + ffmpeg `araclar/paketler/node_modules/` içinde (`render.mjs` hazır) |
-| Whisper ile kelime zamanları | Kurma. Seslendirme ai33 ile üretilir, kelime zamanları ai33 transkriptinden (`seslendirme.mjs`) |
-| "Voiceover: the recording is in this folder" | Kayıt yoksa senaryoyu sen yaz (konuya göre, doğru bilgi), ai33 ile seslendir |
+| Whisper ile kelime zamanları | Kurma. Seslendirme ai33 (olmazsa ElevenLabs) ile üretilir, kelime zamanları onların transkriptinden (`seslendirme.mjs`) |
+| "Voiceover: the recording is in this folder" | Kayıt yoksa senaryoyu sen yaz (konuya göre, doğru bilgi), §3'teki script ile seslendir |
 | Openverse'ten CC0 ses | Olur — `sesler.mjs`, kaynaklar `CREDITS.md`'ye |
 | "Do not synthesize music" | Müzik açıksa `kaynaklar/muzik/*.wav` (önceden üretilmiş, telifsiz) |
 | Konuda başka bir markanın logosu gerekiyorsa | (Solar Insider logosu `logo.md`'de, buna dahil değil.) Kullanıcıdan dosyayı `kaynaklar/referans/` içine koymasını iste |
@@ -67,9 +67,9 @@ Stil promptları (ve `stil` skill'inin ortak gövdesi) başka bir ortam varsayar
 
 1. **Prompt:** stil dosyasını doldur → `animasyonlar/<ad>/stil-prompt.md`. Promptun stil bölümlerini (görsel dil, hareket, teknik uygulama, kaçınılacaklar) dikkatle uygula.
 2. **Senaryo + sahne planı:** konu için doğru bilgiyle 6 bölüm civarı, ~450–520 karakterlik anlatım (≈35–40 sn). Uygun 2–4 yerde duygu etiketi (§3). Sahne tablosu: | Sahne | Zaman | Anlatılan | Kompozisyon | Çizim/hareket | Kamera/geçiş | Ekrandaki yazı | Ses |
-3. **`index.html`:** **Her videoya logo gömülür: `REPO` + `logo.md` dosyasını oku ve uygula (atlanmaz).** Sahneleri stilin diliyle yeniden yaz (Canvas 2D / SVG / Three.js — stile göre). Kurallar: `window.seek(t)` aynı t için hep aynı kareyi çizer (requestAnimationFrame, Date.now, Math.random yok; tohumlu rastgele kullan). Tasarım çizelgesi `u` (0–30) birimiyle yaz; seslendirme varsa `seslendirme.js` haritası `u`'yu gerçek saniyeye bağlar (örnekteki `haritala`). Şablondaki çizim motoru (izdüşüm, kısmi çizgi çizimi `yol`, yüz dolgusu, `cagri` etiketleri, `yazi`, başlık sistemi) uyarlanabilir; stil başka bir görünüm istiyorsa (kâğıt dokusu, mürekkep, cam kırılması, parçacık) o tekniği prompttaki "technical implementation" bölümüne göre kur. Yazılar Türkçe; büyük harfte `toLocaleUpperCase("tr-TR")`. Font dosyasını klasöre koy (örnekte `Inter.ttf`; stilin istediği ücretsiz fontu Google Fonts'tan indirip ekleyebilirsin).
+3. **`index.html`:** **Her videoya logo gömülür (üstte küçük logo + sonda büyüyen logo ve "intelligence" kapanışı): `REPO` + `logo.md` dosyasını oku ve uygula (atlanmaz).** Sahneleri stilin diliyle yeniden yaz (Canvas 2D / SVG / Three.js — stile göre). Kurallar: `window.seek(t)` aynı t için hep aynı kareyi çizer (requestAnimationFrame, Date.now, Math.random yok; tohumlu rastgele kullan). Tasarım çizelgesi `u` (0–30) birimiyle yaz; seslendirme varsa `seslendirme.js` haritası `u`'yu gerçek saniyeye bağlar (örnekteki `haritala`). Şablondaki çizim motoru (izdüşüm, kısmi çizgi çizimi `yol`, yüz dolgusu, `cagri` etiketleri, `yazi`, başlık sistemi) uyarlanabilir; stil başka bir görünüm istiyorsa (kâğıt dokusu, mürekkep, cam kırılması, parçacık) o tekniği prompttaki "technical implementation" bölümüne göre kur. Yazılar Türkçe; büyük harfte `toLocaleUpperCase("tr-TR")`. Font dosyasını klasöre koy (örnekte `Inter.ttf`; stilin istediği ücretsiz fontu Google Fonts'tan indirip ekleyebilirsin).
 4. **Storyboard:** `node render.mjs storyboard [t1 t2 …]` → `storyboard/kare-*.png` + `temas-tablosu.png`. Görüntüle; kesilen yazı/çakışma varsa ya da logo herhangi bir karede eksik/kesikse düzelt. Sahne tablosu + temas tablosu yolunu göster → **dur, onay iste**.
-5. **Seslendirme:** `seslendirme.mjs` başındaki `METIN` ve `CAPALAR`'ı yaz (çapa: "bu kelime söylendiğinde animasyon bu `u` anında olsun"; aynı kelimenin kaçıncı geçişi olduğuna dikkat; sıra hem saniyede hem `u`'da artmalı) → `node seslendirme.mjs`.
+5. **Seslendirme:** (§3) `REPO` + `seslendirme.mjs`'yi indir, başındaki `METIN` ve `CAPALAR`'ı yaz (çapa: "bu kelime söylendiğinde animasyon bu `u` anında olsun"; aynı kelimenin kaçıncı geçişi olduğuna dikkat; sıra hem saniyede hem `u`'da artmalı) → `node seslendirme.mjs`.
 6. **Kontrol:** `node render.mjs kontrol` → `kontrol/temas-tablosu.png` (1,5 sn'de bir kare). Özellikle sahne geçişlerinde hayalet bindirmeye (iki sahne yarı saydam üst üste) ve kesilen etiketlere bak; geçişleri sıralı yap.
 7. **Render + ses:** `node render.mjs video` (~1200 kare ≈ 4–5 dk) → `sesler.mjs`'de `OLAYLAR` (u zamanı, ses, seviye) ve `SESLER` (Openverse CC0 kimlikleri; aramak için `https://api.openverse.org/v1/audio/?q=<terim>&license=cc0&page_size=12`) → `node sesler.mjs` → dublaj + efektler + loudnorm (-15 LUFS, 48 kHz) → `out/final.mp4`.
 8. **Teslim:** ffprobe ile süre/akış kontrolü, videoyu **Windows oynatıcısıyla aç** (PowerShell `Invoke-Item "<yol>"`), kısa özet: dosya yolu, süre, harcanan kredi, nasıl değiştirilebileceği. Paylaşım metni istenirse `icerikler/YYYY-AA-GG_<ad>.md`.
@@ -78,12 +78,15 @@ Komutları `animasyonlar/<ad>/` içinde, `../../araclar/node/node.exe <script>` 
 
 ---
 
-## 3. Seslendirme — ai33.pro
-- Anahtar `.env` → `AI33_API_KEY` (klasör sahibinin hesabı/kredisi). **Asla** yazdırma, dokümana veya koda koyma.
-- Ses/hız: kökteki `ayarlar.json` → ElevenLabs `elevenlabs_cWVxITrm3nn4UZgIKhad`, hız **1.1** (sahibin seçimi). Hızı veya sesi değiştirmek aynı metinli videoları yeniden seslendirtir (kredi) — önce sor. Diğer Türkçe sesler dosyada listeli.
-- API: `POST /v3/text-to-speech` (FormData: text, voice_id, speed, with_transcript=true) → `GET /v1/task/{id}` → `metadata.audio_url`, `metadata.json_url` (kelime zamanları). Türkçe metni **Node fetch** ile gönder (Windows'ta curl komut satırı Türkçe karakteri bozar).
+## 3. Seslendirme — önce ai33, olmazsa ElevenLabs
+- **Script repoda:** her videoda `REPO` + `seslendirme.mjs` dosyasını `curl -s` ile video klasörüne indir (şablondaki eski `seslendirme.mjs`'nin yerine), başındaki `METIN` ve `CAPALAR`'ı yaz, çalıştır. Ses, hız, sağlayıcı sırası ve süre sınırı repodaki `ayarlar.json`'dan okunur; script onu kendisi çeker. Yerel `ayarlar.json` kullanılmaz.
+- **Sıra:** önce **ai33** denenir. ai33 isteğe `yanitSn` (15 sn) içinde yanıt vermezse, işi kabul edip sesi `uretimSn` (5 dk) içinde hazırlamazsa ya da hata verirse otomatik olarak **doğrudan ElevenLabs API**'ye geçilir (aynı ses `cWVxITrm3nn4UZgIKhad`, model `eleven_v3`). Hangi sağlayıcının kullanıldığı ve kalan kredi çıktıda yazar.
+- **Anahtarlar yalnızca kullanıcının bilgisayarında**, proje kökündeki `.env`: `AI33_API_KEY=...` ve `ELEVENLABS_API_KEY=...` (kullanıcının kendi ElevenLabs hesabı, ücretli plan gerekir — ücretsiz plan kütüphane seslerini API'de kullandırmaz). `ELEVENLABS_API_KEY` yoksa ve gerekiyorsa kullanıcıdan iste, `.env`'ye yaz. **Asla** yazdırma, sohbete, dokümana, koda veya repoya koyma.
+- Hızı veya sesi değiştirmek aynı metinli videoları yeniden seslendirtir (kredi) — önce sor.
+- Türkçe metni **Node fetch** ile gönder (script öyle yapar; Windows'ta curl komut satırı Türkçe karakteri bozar).
 - Duygu etiketleri: `[curious]` soru/kanca · `[excited]` şaşırtıcı an · `[whispers]` sır · `[softly]` kapanış · `[sighs]` · `[laughs]`. Cümle başına; seslendirilmez, transkriptte görünmez. Ayrıca üç nokta ve ünlemle tonlama.
-- Maliyet: ~500 karakter ≈ 650–750 kredi. Metin + ses + hız değişmezse `seslendirme.mjs` yeniden seslendirmez. Kalan kredi yazdırılır.
+- Maliyet: ~500 karakter ≈ 650–750 ai33 kredisi; ElevenLabs'te yaklaşık karakter başına 1 kredi. Metin + ayarlar değişmezse script yeniden seslendirmez.
+- Script `seslendirme.js`'ye `window.SES = { sure, harita, onGecikme, kapanis }` yazar. `kapanis` = `[başlangıç, bitiş]` saniye: logo kapanış kartının zamanı (`logo.md`). Son sahne `u = 30`'da biter, kart onun ardından gelir.
 - Transkript bazen iki kelimeyi birleştirir ("trafo da" → "Trafoda"); çapa seçerken buna dikkat.
 
 ---
@@ -109,8 +112,8 @@ CLAUDE.md                yalnızca bu uzak kılavuzu okutan kısa yönlendirme
 README.md                kullanıcı için başlangıç kılavuzu
 (repoda) stil-katalog.md, stil-<id>.md, stil-skill.md   11 stil + katalog + resimden stil çıkarma adımları — kaynak: https://smokich.gosem.dev/stil/#stiller
 (repoda) logo.md          her videoya gömülen Solar Insider logosu + yerleşim kuralları
-.env                     ai33 API anahtarı (gizli)
-ayarlar.json             seslendirme sesi ve hızı
+.env                     AI33_API_KEY, ELEVENLABS_API_KEY (gizli, yalnızca bu bilgisayarda)
+(repoda) ayarlar.json + seslendirme.mjs   seslendirme ayarları ve scripti (yerel ayarlar.json kullanılmaz)
 animasyonlar/<ad>/       her video: stil-prompt.md, index.html, render.mjs, seslendirme.mjs, sesler.mjs, out/final.mp4
 kaynaklar/referans/      kullanıcının verdiği görseller
 kaynaklar/muzik, sfx/    kodla üretilmiş telifsiz müzik ve efektler
