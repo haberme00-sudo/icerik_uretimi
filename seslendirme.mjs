@@ -5,10 +5,13 @@
 // Ayarlar (ses, hız, süre sınırı) repodaki ayarlar.json'dan okunur; anahtarlar yerel .env'den:
 //   AI33_API_KEY=...          (ai33 için)
 //   ELEVENLABS_API_KEY=...    (ElevenLabs için)
-// Çıktı: ses/dublaj.mp3, seslendirme.json, seslendirme.js (index.html bunu yükler)
+// Uzun duraklamalar kırpılır (ayarlar.json → duraklama): ses aynı kalır, aradaki sessizlik kısalır.
+// Çıktı: ses/dublaj-ham.mp3 (kırpılmamış), ses/dublaj.mp3 (kırpılmış, videoda bu kullanılır),
+//        seslendirme.json, seslendirme.js (index.html bunu yükler)
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
+import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const AYAR_URL = "https://raw.githubusercontent.com/haberme00-sudo/icerik_uretimi/main/ayarlar.json";
@@ -16,7 +19,8 @@ const kok = path.dirname(fileURLToPath(import.meta.url));
 const projeKok = path.resolve(kok, "..", "..");
 const ON_GECIKME = 0.3; // video başı → konuşma başlangıcı
 const KUYRUK = 1.2; // konuşma sonu → son sahnenin bitişi (u = 30)
-const KAPANIS = 3.5; // ardından logo kapanışı: logo ortaya büyür + "intelligence" (logo.md)
+const KAPANIS = 2.5; // ardından logo kapanışı: logo ortaya büyür (logo.md)
+const FFMPEG = path.resolve(projeKok, "araclar/paketler/node_modules/@remotion/compositor-win32-x64-msvc/ffmpeg.exe");
 
 // Anlatım: her parça ekrandaki bölümle eşleşir. [etiketler] seslendirilmez.
 const METIN = [
@@ -164,28 +168,56 @@ const jsonYol = path.join(kok, "seslendirme.json");
 const hash = crypto.createHash("sha1").update(`${JSON.stringify([ayar.ai33, ayar.elevenlabs])}|${METIN}`).digest("hex").slice(0, 12);
 const onceki = fs.existsSync(jsonYol) ? JSON.parse(fs.readFileSync(jsonYol, "utf8")) : null;
 
-let kelimeler, saglayici;
-if (onceki && onceki.hash === hash && fs.existsSync(path.join(sesDir, "dublaj.mp3")) && !process.argv.includes("--zorla")) {
+const hamYol = path.join(sesDir, "dublaj-ham.mp3");
+let hamKelimeler, saglayici;
+if (onceki?.hamKelimeler && onceki.hash === hash && fs.existsSync(hamYol) && !process.argv.includes("--zorla")) {
   console.log("= Metin değişmedi, seslendirme atlandı (0 kredi).");
-  ({ kelimeler, saglayici } = onceki);
+  ({ hamKelimeler, saglayici } = onceki);
 } else {
   const hatalar = [];
   for (const ad of ayar.sira || ["ai33", "elevenlabs"]) {
     try {
       console.log(`… ${ad} deneniyor`);
       const s = await SAGLAYICILAR[ad]();
-      fs.writeFileSync(path.join(sesDir, "dublaj.mp3"), s.ses);
-      kelimeler = s.kelimeler;
+      fs.writeFileSync(hamYol, s.ses);
+      hamKelimeler = s.kelimeler;
       saglayici = ad;
-      console.log(`✓ Dublaj (${s.bilgi}): ${kelimeler.length} kelime`);
+      console.log(`✓ Dublaj (${s.bilgi}): ${hamKelimeler.length} kelime`);
       break;
     } catch (err) {
       hatalar.push(`${ad}: ${err.message}`);
       console.warn(`! ${ad} olmadı → ${err.message}`);
     }
   }
-  if (!kelimeler) throw new Error("Seslendirme yapılamadı.\n" + hatalar.join("\n"));
+  if (!hamKelimeler) throw new Error("Seslendirme yapılamadı.\n" + hatalar.join("\n"));
 }
+
+// Duraklama kırpma: kelimeler arasındaki uzun sessizlik hedef süreye indirilir (kesim sessizliğin ortasından).
+const D = { cumleSonu: 0.28, cumleIci: 0.15, bas: 0.05, ...(ayar.duraklama || {}) };
+const tutulan = []; // [başlangıç, bitiş] ham sesten tutulacak aralıklar
+const kelimeler = [];
+let kesilen = Math.max(0, hamKelimeler[0].bas - D.bas);
+let aBas = kesilen;
+hamKelimeler.forEach((k, i) => {
+  kelimeler.push({ ...k, bas: +(k.bas - kesilen).toFixed(3), bit: +(k.bit - kesilen).toFixed(3) });
+  const s = hamKelimeler[i + 1];
+  if (!s) return;
+  const hedef = /[.!?…]$/.test(k.metin) ? D.cumleSonu : D.cumleIci;
+  const bosluk = s.bas - k.bit;
+  if (bosluk > hedef + 0.08) {
+    const kesBas = k.bit + hedef * 0.6; // kelime sonundan sonra biraz daha fazla pay bırak
+    const kesBit = s.bas - hedef * 0.4;
+    tutulan.push([aBas, kesBas]);
+    aBas = kesBit;
+    kesilen += kesBit - kesBas;
+  }
+});
+tutulan.push([aBas, null]);
+const filtre = tutulan.map(([a, b], i) => `[0:a]atrim=start=${a.toFixed(3)}${b != null ? `:end=${b.toFixed(3)}` : ""},asetpts=PTS-STARTPTS[p${i}]`);
+filtre.push(`${tutulan.map((_, i) => `[p${i}]`).join("")}concat=n=${tutulan.length}:v=0:a=1[o]`);
+const kr = spawnSync(FFMPEG, ["-y", "-v", "error", "-i", hamYol, "-filter_complex", filtre.join(";"), "-map", "[o]", "-c:a", "libmp3lame", "-q:a", "2", path.join(sesDir, "dublaj.mp3")], { stdio: "inherit" });
+if (kr.status !== 0) throw new Error("Duraklama kırpma başarısız");
+console.log(`✓ Duraklamalar kırpıldı: ${kesilen.toFixed(1)} sn kısaldı (${tutulan.length - 1} yer)`);
 
 // zaman haritası: [video saniyesi, tasarım u]
 const harita = [[0, 0]];
@@ -207,7 +239,7 @@ harita.push([sahneSonu, 30]);
 const sure = +(sahneSonu + KAPANIS).toFixed(3);
 const kapanis = [sahneSonu, sure];
 
-const veri = { hash, saglayici, onGecikme: ON_GECIKME, sure, kapanis, harita, kelimeler };
+const veri = { hash, saglayici, onGecikme: ON_GECIKME, sure, kapanis, harita, kelimeler, hamKelimeler };
 fs.writeFileSync(jsonYol, JSON.stringify(veri, null, 2) + "\n", "utf8");
 fs.writeFileSync(path.join(kok, "seslendirme.js"), `// otomatik üretildi — seslendirme.mjs\nwindow.SES = ${JSON.stringify({ sure, harita, onGecikme: ON_GECIKME, kapanis, kelimeler: kelimeler.map((k) => [k.metin, +(ON_GECIKME + k.bas).toFixed(3), +(ON_GECIKME + k.bit).toFixed(3)]) })};\n`, "utf8");
 console.log(`✓ Süre: ${sure} sn (kapanış kartı ${kapanis[0]}–${kapanis[1]} sn)`);

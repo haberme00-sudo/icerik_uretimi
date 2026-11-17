@@ -116,7 +116,7 @@ Platform verilmezse sorma: **LinkedIn + Instagram** ikisi için birden hazırla 
 2. **Bağlam** (neden önemli, kimi etkiliyor): kısa, tek fikir
 3. **Açıklama** (2–3 bölüm): mekanizma adım adım, her bölümde tek fikir, somut örnek ya da rakam
 4. **"Aha" anı:** kancadaki sorunun net cevabı. En güçlü görsel burada olur (`[excited]` uygun).
-5. **Kapanış:** akılda kalan tek cümle, istenirse kancaya geri bağlanır. Sakin tonla (`[softly]`). Çağrı yok. Videoda ardından logo kapanışı gelir (`logo.md`).
+5. **Kapanış:** akılda kalan tek, kısa ve net cümle; istenirse kancaya geri bağlanır. Fısıltı, `[softly]` ya da üç noktayla yavaşlatma yok. Çağrı yok. Videoda ardından logo kapanışı gelir (`logo.md`).
 
 **Senaryo kontrolü (yazdıktan sonra):**
 - İlk cümle tek başına durdurur mu?
@@ -125,3 +125,24 @@ Platform verilmezse sorma: **LinkedIn + Instagram** ikisi için birden hazırla 
 - Jargon açıklandı mı?
 - Rakamların kaynağı var mı?
 - Satış dili ya da çağrı kaldı mı?
+
+## 6. Metin dili ve tempo (sıkıcı olmasın)
+Kullanıcı ilk örnek videoyu sıkıcı buldu. Sebepleri ölçüldü: yavaş konuşma (dakikada ~120 kelime), konuşmanın ~%25'i sessizlik, ders kitabı gibi sıralama cümleleri, müziksiz boşluklar, uzun süre değişmeyen görüntü. Bu yüzden:
+
+**Metin (seslendirme ve carousel yazıları)**
+- **Kısa cümle:** çoğu cümle 6–12 kelime. Bir cümlede tek bilgi.
+- **Konuşma dili:** "…dır/dir" yığını değil, birine anlatır gibi. Gerekirse "siz" diye hitap et ("Santraliniz öğle saatinde…").
+- **Sıralama yerine soru–cevap zinciri:** "Panel cam, film ve hücreden oluşur" yerine "Peki ışığı elektriğe çeviren ne? Camın altındaki ince silisyum hücreler." Her bölüm küçük bir merakı açıp kapatsın.
+- **Somut ol:** soyut ifade yerine sayı, nesne, saat, yer ("öğle saatinde", "bir futbol sahası kadar").
+- **Gereksiz giriş yok:** "Bu videoda… anlatacağız", "Merhaba", "Bildiğiniz gibi" yok. Doğrudan konuya gir.
+- **Üç nokta (…) ve `[softly]` yok:** seslendirmede uzun duraklama ve yavaşlama yaratıyor. Tonlamayı soru ve ünlem işaretiyle ver. Duygu etiketi en fazla 2–3 yerde: kancada `[curious]`, "aha" anında `[excited]`.
+- **Uzunluk:** ~450–520 karakter (≈ 30–35 sn, duraklamalar kırpıldıktan sonra).
+
+**Ses** (otomatik, `ayarlar.json`): hız 1.2; uzun duraklamalar kırpılır; konuşmanın altında çok düşük müzik, konuşma aralarında hafifçe yükselir.
+
+**Görüntü temposu (video)**
+- **Her 3–5 saniyede yeni bir görsel gelişme:** yeni parça çizilir, kamera yaklaşır/kayar, rakam sayar, grafik akar, etiket belirir. Bir görüntü 5 sn'den uzun hareketsiz kalmaz.
+- **Bekleme yok:** anlatım bir şeyi söylediği anda (çapa) görüntüde o olur. Çizim, sesin gerisinde kalmaz. Sahne geçişleri kısa olur (0,3–0,6 sn).
+- **Hareket hep sürsün:** sahne "bitmiş" görünse bile hafif bir hareket devam eder (akış okları, yavaş kamera kayması, parıltı).
+
+**Kontrol:** Senaryo yazıldıktan sonra yüksek sesle okunuyormuş gibi gözden geçir. Uzun cümleyi böl, sıralamayı soruya çevir, üç noktayı kaldır. Kontrol karelerinde (1,5 sn'de bir) art arda 3 karede (≈4,5 sn) görüntü neredeyse aynıysa o sahneye hareket ekle.

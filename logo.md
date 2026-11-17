@@ -20,25 +20,19 @@ Videolar başkaları tarafından alınıp kendi içerikleri gibi paylaşılması
 - **Kontrol:** Storyboard ve kontrol karelerinde logonun her karede göründüğünü, kesilmediğini ve hiçbir yazıyla çakışmadığını doğrula.
 
 ## Kapanış kartı (her videonun sonunda)
-Amaç: videonun Solar Insider içeriği olduğunu son anda açıkça göstermek.
+Amaç: videonun Solar Insider içeriği olduğunu son anda sade bir şekilde göstermek.
 
-- **Zaman:** Seslendirme bittikten sonra videonun sonuna **yaklaşık 3,5 saniyelik kapanış** gelir. Zamanı `window.SES.kapanis` = `[başlangıç, bitiş]` saniye (seslendirme.mjs üretir, toplam süreye dahil). `ciz(t)` içinde `t >= SES.kapanis[0]` ise kapanışı çiz. Kapanış anlatımın üstüne binmez. Seslendirme yoksa son 3,5 saniyeyi kapanış için ayır. Aşağıdaki süreler kapanış başlangıcından (`k = t - SES.kapanis[0]`) sayılır.
-- **1. Zemin (k = 0 → 0,8 sn):** Son sahne, stilin zemin rengindeki sade bir ekrana yumuşakça çözülür. Kısa ve tek yönlü bir geçiş olsun: iki sahne yarı saydam üst üste uzun süre kalmasın.
-- **2. Logo büyüyerek ortaya gelir (k = 0 → 1,0 sn):** Üstteki **aynı küçük logo** yerinden ayrılmadan, ekranın ortasına doğru **kayarak ve büyüyerek** gelir. Yeni bir logo belirmez, aynı logo hareket eder. Hareket yumuşak olsun (ease-in-out, örn. `easeInOutCubic`). Son boyut: dikeyde genişlik yaklaşık **720 px**, yatayda yaklaşık **800 px**. Logo, ortadaki logo + yazı grubunun üst kısmında durur.
-- **3. "intelligence" yazısı (k = 0,9 → 1,5 sn):** Logonun hemen altında, ortalı olarak **`intelligence`** yazısı belirir: küçük harf, aynen bu şekilde, Türkçeye çevrilmez, büyük harfe dönüştürülmez.
-  - Hafif yukarı kayarak ve görünür hale gelerek girer (yaklaşık 20 px, ease-out).
-  - Boyut: harf yüksekliği logodaki yazının yaklaşık yarısı. Harf aralığı geniş (yaklaşık 0,25em).
-  - Yazı tipi temiz ve kalın olmayan bir sans-serif: klasördeki Inter, ağırlık 500. Yoksa stilin yazı tipi.
-  - Renk şimşek mavisi `#1d4ed8`. Çok koyu zeminde okunmuyorsa bir ton açığı `#3b6cf0`.
-  - Logo ile yazı arasında logo yüksekliğinin yaklaşık yarısı kadar boşluk olsun. Grup bütün olarak ekranın tam ortasında dursun.
-- **4. Sabit (k = 1,5 sn → son):** Logo ve yazı sabit kalır. Son kare tam, net, kesiksiz logo + `intelligence` olmalı.
+- **Zaman:** Seslendirme bittikten sonra videonun sonuna **2,5 saniyelik kapanış** gelir. Zamanı `window.SES.kapanis` = `[başlangıç, bitiş]` saniyedir (`seslendirme.mjs` üretir, toplam süreye dahil). `ciz(t)` içinde `t >= SES.kapanis[0]` ise kapanışı çiz. Kapanış anlatımın üstüne binmez. Seslendirme yoksa son 2,5 saniyeyi kapanış için ayır. Aşağıdaki süreler kapanış başlangıcından sayılır (`k = t - SES.kapanis[0]`).
+- **1. Zemin (k = 0 → 0,6 sn):** Son sahne, stilin zemin rengindeki sade bir ekrana yumuşakça çözülür. Kısa ve tek yönlü bir geçiş olsun; iki sahne yarı saydam üst üste uzun süre kalmasın.
+- **2. Logo büyüyerek ortaya gelir (k = 0 → 0,9 sn):** Üstteki **aynı küçük logo** yerinden ayrılıp ekranın ortasına doğru **kayarak ve büyüyerek** gelir. Yeni bir logo belirmez, aynı logo hareket eder. Hareket yumuşak olsun (ease-in-out, örn. `easeInOutCubic`). Son boyut: dikeyde genişlik yaklaşık **720 px**, yatayda yaklaşık **800 px**, tam ortada.
+- **3. Sabit (k = 0,9 sn → son):** Logo sabit kalır. Son kare tam, net, kesiksiz logo olmalı.
 - **Kurallar:**
-  - Logonun dışında yalnızca `intelligence` yazısı olur, başka yazı olmaz.
+  - Kapanışta logodan başka hiçbir yazı yok.
   - Logonun şekli, oranı ve yazısı değiştirilmez.
   - Renk kuralı yukarıdakiyle aynı: koyu zeminde beyaz yazı, açık zeminde siyah yazı, şimşek mavi.
-  - Bütün hareket `seek(t)` ile kare kare aynı çizilir; Date.now ya da requestAnimationFrame kullanılmaz.
-- **Ses:** Logo ortaya otururken kısa ve yumuşak bir efekt sesi uygundur (`sesler.mjs` → `OLAYLAR`, örn. yumuşak "whoosh" veya "chime"). Sesi düşük tut.
-- **Kontrol:** Storyboard karelerine kapanıştan üç kare ekle: geçişin ortası (k ≈ 0,5), yazının girişi (k ≈ 1,2) ve son kare. Hareketin yumuşak olduğunu, logo ile yazının çakışmadığını ve son karede her şeyin ortalı ve tam olduğunu doğrula.
+  - Bütün hareket `seek(t)` ile kare kare aynı çizilir; `Date.now` ya da `requestAnimationFrame` kullanılmaz.
+- **Ses:** Logo ortaya otururken kısa ve yumuşak bir efekt sesi uygundur (`sesler.mjs` → `OLAYLAR`'da `["kapanis", ses, seviye]`, örn. yumuşak "chime"). Sesi düşük tut. Müzik kapanışta kendiliğinden biraz yükselip söner.
+- **Kontrol:** Storyboard karelerine kapanıştan iki kare ekle: geçişin ortası (k ≈ 0,45) ve son kare. Hareketin yumuşak olduğunu ve son karede logonun ortalı ve tam olduğunu doğrula.
 
 ## Logo dosyası (SVG)
 Bu dosyadan birebir al; klasöre ayrı dosya olarak kaydetme, `index.html` içine göm.

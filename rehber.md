@@ -112,13 +112,41 @@ Bu dosya bu bilgisayarda kalır, repoya gitmez. Sıranın nerede kaldığını b
    - **Instagram carousel:** "+" → Gönderi → çoklu seçim → PNG'leri **01'den başlayarak sırayla** seç → metni yapıştır → Paylaş.
    - **Tek görsel:** ilgili uygulamada normal fotoğraf gönderisi.
 4. Tek cümle: "Paylaşınca bana 'paylaştım' yazman yeterli."
+5. Ardından temizlik onayını sor (§8).
 
 **İstatistik (isteğe bağlı):** Paylaşımdan birkaç gün sonra kullanıcı istatistik ekranının görüntüsünü atarsa izlenme, sona kadar izlenme, kaydetme ve paylaşım sayılarını kayda yaz.
 - Haftada bir ya da kullanıcı sorarsa sade bir özet ver: "En çok ilgi gören seri …, bu yüzden bu hafta ondan bir tane daha öneriyorum."
 - LinkedIn sayfa istatistiklerinde takipçilerin sektörü ve unvanı görünür. Ara sıra bunun ekran görüntüsünü isteyip doğru kitlenin (enerji, imalat, mühendis, yönetici) gelip gelmediğini değerlendir.
 - Yorumların kısa ve teşvik edici olsun. Rakamlar düşükse moral bozma, neyin deneneceğini söyle.
 
-## 8. Asla
+## 8. Temizlik (her içerik bittikten sonra, onayla)
+Her üretimde bu bilgisayara indirilen kodlar, doldurulmuş promptlar ve ara dosyalar birikir. İçerik bitince bunlar **kullanıcının onayıyla** silinir; yalnızca teslim edilen dosyalar kalır.
+
+**Ne zaman:** Paylaşım paketini verdikten sonra, aynı mesajın sonunda sor. Kullanıcı önce değişiklik isterse yap, temizliği değişiklikler bitince tekrar sor.
+
+**Soru kalıbı** (sade tut):
+> Video hazır. Beğendiysen, bilgisayarında yer kaplamasın diye çalışma dosyalarını (indirdiğim kodlar, ara kareler, ses parçaları) sileceğim. Video ve gönderi metni `teslim` klasöründe kalacak. Silindikten sonra bu videoda değişiklik gerekirse baştan üretmem gerekir. Sileyim mi?
+
+**Onay gelirse:**
+1. Teslim klasörünü oluştur: `teslim/YYYY-AA-GG_<ad>/` (proje kökünde).
+2. Oraya taşı:
+   - **Video:** `out/final.mp4` → `<ad>.mp4`, `metin.md`, `CREDITS.md`
+   - **Görsel / carousel:** `out/*.png`, `out/carousel.pdf`, `metin.md`
+3. Çalışma klasörünü **tamamen sil:** `animasyonlar/<ad>/` ya da `gorseller/<ad>/`. İçinde `stil-prompt.md`, `index.html`, `render.mjs`, `seslendirme.mjs`, `sesler.mjs`, `gorsel-render.mjs`, `seslendirme.js(on)`, `ses/`, `sesler/`, `storyboard/`, `kontrol/`, `kareler/`, `out/sessiz.mp4` ve diğer her şey vardır.
+4. Kayıt dosyasında (§6) o satırın "Klasör" sütununu `teslim/...` yoluyla güncelle.
+5. Tek cümleyle bildir: "Temizledim, video `teslim` klasöründe."
+
+**Asla silme:**
+- Şablon klasörü `animasyonlar/gunes-paneli-izometrik/` (yeni videolar ondan kopyalanır)
+- `teslim/` klasörü
+- `icerikler/yayin-kaydi.md`
+- `.env`
+- `araclar/`, `kaynaklar/`
+- Kullanıcının kendi koyduğu dosyalar
+
+**Onay gelmezse** (hayır, sonra, cevap yok): silme. Bir sonraki konuşmanın başında, `teslim`'e taşınmamış eski çalışma klasörü varsa bir kez hatırlat: "Geçen seferden kalan çalışma dosyaları var, temizleyeyim mi?"
+
+## 9. Asla
 - Kullanıcıdan dosya, komut, ayar, stil adı ya da ölçü seçmesini isteme (o isterse seçenek sun).
 - Teknik hata metni, dosya yolu yığını ya da uzun açıklama gösterme.
 - Strateji dışına çıkma (`strateji.md`): satış dili, çağrı, tık tuzağı, doğrulanmamış bilgi yok.

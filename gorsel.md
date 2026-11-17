@@ -105,3 +105,4 @@ Temiz, beyaz, ferah bir SaaS görünümü. Bol boşluk, ince gri çerçeveler, t
   - Kaynak bağlantıları
   - LinkedIn için PDF'e verilecek belge başlığı
 - Kullanıcıya kısa özet ver: klasör yolu, slayt sayısı, hangi dosyanın hangi platforma **nasıl** yükleneceği (LinkedIn carousel: "belge ekle" ile `carousel.pdf`; Instagram: PNG'leri sırayla seç). Klasörü aç (`Invoke-Item "<klasör>"`).
+- Teslimden sonra `rehber.md` §8'e göre **temizlik onayı** iste. Onay gelirse PNG'ler, `carousel.pdf` ve `metin.md` `teslim/` klasörüne taşınır; `gorseller/<ad>/` çalışma klasörü (index.html, gorsel-render.mjs, ara dosyalar) silinir.

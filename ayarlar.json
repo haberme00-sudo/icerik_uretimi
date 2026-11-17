@@ -1,16 +1,28 @@
 {
-  "_not": "Seslendirme ayarları. Anahtarlar burada DEĞİL, kullanıcının bilgisayarındaki .env dosyasında durur. Sesi/hızı değiştirmek aynı metinli videoları yeniden seslendirtir.",
+  "_not": "Seslendirme ve ses ayarları. Anahtarlar burada DEĞİL, kullanıcının bilgisayarındaki .env dosyasında durur. Sesi/hızı değiştirmek aynı metinli videoları yeniden seslendirtir.",
   "sira": ["ai33", "elevenlabs"],
   "ai33": {
     "ses": "elevenlabs_cWVxITrm3nn4UZgIKhad",
-    "hiz": 1.1,
+    "hiz": 1.2,
     "yanitSn": 15,
     "uretimSn": 300
   },
   "elevenlabs": {
     "ses": "cWVxITrm3nn4UZgIKhad",
     "model": "eleven_v3",
-    "hiz": 1.1,
+    "hiz": 1.2,
     "sttModel": "scribe_v1"
+  },
+  "duraklama": {
+    "_not": "Kelimeler arası en uzun sessizlik (sn). Daha uzun boşluklar bu süreye kırpılır.",
+    "cumleSonu": 0.28,
+    "cumleIci": 0.15
+  },
+  "muzik": {
+    "_not": "Arka plan müziği (kaynaklar/muzik/ içinden). seviye: konuşma yokken, konusmaAltinda: konuşma sırasında (0–1).",
+    "acik": true,
+    "dosya": "altyapi-teknoloji.wav",
+    "seviye": 0.16,
+    "konusmaAltinda": 0.07
   }
 }
