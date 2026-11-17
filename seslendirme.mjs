@@ -209,6 +209,6 @@ const kapanis = [sahneSonu, sure];
 
 const veri = { hash, saglayici, onGecikme: ON_GECIKME, sure, kapanis, harita, kelimeler };
 fs.writeFileSync(jsonYol, JSON.stringify(veri, null, 2) + "\n", "utf8");
-fs.writeFileSync(path.join(kok, "seslendirme.js"), `// otomatik üretildi — seslendirme.mjs\nwindow.SES = ${JSON.stringify({ sure, harita, onGecikme: ON_GECIKME, kapanis })};\n`, "utf8");
+fs.writeFileSync(path.join(kok, "seslendirme.js"), `// otomatik üretildi — seslendirme.mjs\nwindow.SES = ${JSON.stringify({ sure, harita, onGecikme: ON_GECIKME, kapanis, kelimeler: kelimeler.map((k) => [k.metin, +(ON_GECIKME + k.bas).toFixed(3), +(ON_GECIKME + k.bit).toFixed(3)]) })};\n`, "utf8");
 console.log(`✓ Süre: ${sure} sn (kapanış kartı ${kapanis[0]}–${kapanis[1]} sn)`);
 harita.forEach(([t, u]) => console.log(`  t=${String(t).padStart(6)} sn → u=${u}`));

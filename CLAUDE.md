@@ -1,6 +1,6 @@
 > **Uzaktan okunan sürüm.** Bu dosya ve stil dosyaları GitHub reposundan okunur; klasörde yerel kopyaları yoktur.
 > Adres kökü (aşağıda **REPO**): `https://raw.githubusercontent.com/haberme00-sudo/icerik_uretimi/main/`
-> Repoda klasör yok, her şey tek seviyede: `CLAUDE.md` (bu dosya), `stil-katalog.md`, `stil-<id>.md` (11 stil), `stil-skill.md`, `logo.md`, `seslendirme.mjs`, `ayarlar.json`.
+> Repoda klasör yok, her şey tek seviyede: `CLAUDE.md` (bu dosya), `stil-katalog.md`, `stil-<id>.md` (11 stil), `stil-skill.md`, `logo.md`, `seslendirme.mjs`, `ayarlar.json`, `gorsel.md`, `gorsel-render.mjs`, `strateji.md`, `rehber.md` (önce bu).
 > Dosyaları Bash'te `curl -s REPO<dosya>` ile birebir oku (WebFetch özetler, kullanma). Diske veya hafızaya kaydetme; her seferinde repodan yeniden oku.
 
 # Stil Tabanlı Video Üretim Klasörü
@@ -15,15 +15,20 @@ Kullanıcı teknik bilgi sahibi olmayabilir; kısa Türkçe isteklerle çalış�
 
 ## 0. İstek geldiğinde: konu + stil gerekir
 
+> **Her konuşmada önce `REPO` + `rehber.md` oku.** Kullanıcı bu konularda bilgisizdir; sen onun içerik yöneticisisin. Seriyi, türü, platformu ve stili sen seçersin, tek öneri sunarsın, üretir, paylaşmayı adım adım anlatır, kaydı tutarsın. Bu dosyadaki "sor" kuralları rehberle çelişirse **rehber geçerlidir.**
+>
+> **Her istekte önce konu kontrolü:** `REPO` + `strateji.md` dosyasını oku. Video da olsa görsel de olsa konu §3'teki kontrolden geçer. Uymuyorsa sade dille nedenini söyle, 2–3 gerekçeli alternatif öner, kullanıcıya seçtir. Platform/tür uygunluğu §4'te. Videolarda bu dosya yalnızca **konu ve anlatımı** etkiler: satış dili, ürün tanıtımı, takip/paylaş çağrısı yok. Stil ve tasarım kuralları aynen geçerli.
+
 | Kullanıcı ne verdi? | Ne yap |
 |---|---|
 | **Konu + stil adı** ("izometrik stilde su musluğa nasıl gelir") | Stili `REPO` + `stil-<id>.md` dosyasından al (ör. `stil-izometrik.md`) → §2 |
 | **Konu + resim** (poster, reklam, video karesi) | `REPO` + `stil-skill.md` dosyasını oku ve oradaki adımları uygula → resimden `stil-prompt.md` üret → §2 |
 | **Uzun stil promptu yapıştırdı** (`# TASK … # 1. PROJECT CONFIGURATION …`) | Doğrudan §2 |
-| **Konu var, stil yok, resim yok** | **Sor** (aşağıdaki kalıp). Stil seçmeden başlama. |
-| **Konu da yok** | Konuyu ve stili birlikte sor; istenirse stilin "örnek konu"sunu öner |
+| **Konu var, stil yok, resim yok** | **Stili sen seç:** `rehber.md` §4'teki seri tablosuna göre. Tek satırda söyle ("Teknik çizim tarzında hazırlıyorum"). Kullanıcı stil seçmek isterse aşağıdaki kalıbı göster. |
+| **Konu da yok** | `rehber.md` §3–4'e göre **bugünün önerisini** sun (tek öneri + yedek, gerekçeli) |
+| **Görsel, carousel, story, sosyal medya gönderisi** (video değil) | `REPO` + `gorsel.md` dosyasını oku ve oradaki akışı uygula (platform → tür → konu; konu yoksa öner). Bu bölümdeki stil/video kuralları görsellere uygulanmaz. |
 
-**Stil sorma kalıbı** (kısa tut, hepsini listele):
+**Stil seçenekleri kalıbı** (yalnızca kullanıcı stil seçmek isterse; kısa tut, hepsini listele):
 > Hangi stilde olsun? Örneklerini buradan izleyebilirsin: **https://smokich.gosem.dev/stil/#stiller**
 > 1 Kâğıt Poster · 2 Kesik Kâğıt · 3 Konstrüktivist · 4 Bilim Atlası · 5 Risograf · 6 İzometrik Çizim · 7 Düz Vektör · 8 Kinetik Tipografi · 9 Sıvı Cam · 10 ASCII Atlas · 11 Parçacık
 > (Ya da beğendiğin bir görseli at, onun tarzını çıkarayım.)
@@ -38,7 +43,7 @@ Gerekirse her stilin bir satırlık tanımını ve "en iyi olduğu konuları" `R
 | Storyboard | **Açık** | Önce önizleme kareleri + sahne tablosu, onaydan sonra tam video |
 | Ses efektleri | Açık | Openverse CC0 (`sesler.mjs`); internet yoksa `kaynaklar/sfx/*.wav` |
 | Müzik | Kapalı | İsterse `kaynaklar/muzik/*.wav` (kodla üretilmiş, telifsiz) |
-| Altyazı | Kapalı | Ekrandaki başlıklar anlatımı taşır; isterse eklenir |
+| Altyazı | **Açık** | Bu kitle videoları çoğunlukla sesi kapalı izler. Kelime zamanları `window.SES.kelimeler`'de (`[metin, başlangıç sn, bitiş sn]`). Ekranda 2–4 kelimelik parçalar, konuşmayla eş zamanlı. Dikeyde y ≈ 1380–1520 bandında, ortalı; Reels arayüzünün kapladığı alt ~320 px'e girmez. Stilin yazı tipi, kalın, zeminle güçlü kontrast (gerekirse yarı saydam koyu/açık şerit). Sahne etiketleriyle çakışmaz, kapanış kartında görünmez. Kullanıcı istemezse kapatılır. |
 
 ### Stil dosyasındaki yer tutucular
 Uzun promptlar: `{{KONU}}` konu metni · `{{STORYBOARD}}` `Enabled`/`Disabled` · `{{SES}}` `Enabled (the recording is in this folder)` / `Disabled` · `{{BICIM}}` `Vertical, 9:16, native resolution 1080 × 1920` (yatayda `Horizontal, 16:9, native resolution 1920 × 1080`) · `{{EFEKT}}` · `{{MUZIK}}`.
@@ -66,13 +71,13 @@ Stil promptları (ve `stil` skill'inin ortak gövdesi) başka bir ortam varsayar
 Örnek ve şablon: **`animasyonlar/gunes-paneli-izometrik/`** (İzometrik Çizim stili, seslendirmeli). Yeni video için bu klasörü `animasyonlar/<ad>/` olarak kopyala; `out/`, `ses/`, `sesler/`, `storyboard/`, `seslendirme.*`, `CREDITS.md` içeriğini temizle.
 
 1. **Prompt:** stil dosyasını doldur → `animasyonlar/<ad>/stil-prompt.md`. Promptun stil bölümlerini (görsel dil, hareket, teknik uygulama, kaçınılacaklar) dikkatle uygula.
-2. **Senaryo + sahne planı:** konu için doğru bilgiyle 6 bölüm civarı, ~450–520 karakterlik anlatım (≈35–40 sn). Uygun 2–4 yerde duygu etiketi (§3). Sahne tablosu: | Sahne | Zaman | Anlatılan | Kompozisyon | Çizim/hareket | Kamera/geçiş | Ekrandaki yazı | Ses |
+2. **Senaryo + sahne planı:** konu için doğru bilgiyle 6 bölüm civarı, ~450–520 karakterlik anlatım (≈35–40 sn). **Kanca ve akış `strateji.md` §5'e göre:** ilk cümle 3 sn'yi geçmeyen kanca, ilk kare hareketli, kanca ekranda büyük yazı; bağlam → açıklama → "aha" anı → sakin kapanış; çağrı yok. Yazdıktan sonra §5'teki senaryo kontrolünü yap. Uygun 2–4 yerde duygu etiketi (§3). Sahne tablosu: | Sahne | Zaman | Anlatılan | Kompozisyon | Çizim/hareket | Kamera/geçiş | Ekrandaki yazı | Ses |
 3. **`index.html`:** **Her videoya logo gömülür (üstte küçük logo + sonda büyüyen logo ve "intelligence" kapanışı): `REPO` + `logo.md` dosyasını oku ve uygula (atlanmaz).** Sahneleri stilin diliyle yeniden yaz (Canvas 2D / SVG / Three.js — stile göre). Kurallar: `window.seek(t)` aynı t için hep aynı kareyi çizer (requestAnimationFrame, Date.now, Math.random yok; tohumlu rastgele kullan). Tasarım çizelgesi `u` (0–30) birimiyle yaz; seslendirme varsa `seslendirme.js` haritası `u`'yu gerçek saniyeye bağlar (örnekteki `haritala`). Şablondaki çizim motoru (izdüşüm, kısmi çizgi çizimi `yol`, yüz dolgusu, `cagri` etiketleri, `yazi`, başlık sistemi) uyarlanabilir; stil başka bir görünüm istiyorsa (kâğıt dokusu, mürekkep, cam kırılması, parçacık) o tekniği prompttaki "technical implementation" bölümüne göre kur. Yazılar Türkçe; büyük harfte `toLocaleUpperCase("tr-TR")`. Font dosyasını klasöre koy (örnekte `Inter.ttf`; stilin istediği ücretsiz fontu Google Fonts'tan indirip ekleyebilirsin).
 4. **Storyboard:** `node render.mjs storyboard [t1 t2 …]` → `storyboard/kare-*.png` + `temas-tablosu.png`. Görüntüle; kesilen yazı/çakışma varsa ya da logo herhangi bir karede eksik/kesikse düzelt. Sahne tablosu + temas tablosu yolunu göster → **dur, onay iste**.
 5. **Seslendirme:** (§3) `REPO` + `seslendirme.mjs`'yi indir, başındaki `METIN` ve `CAPALAR`'ı yaz (çapa: "bu kelime söylendiğinde animasyon bu `u` anında olsun"; aynı kelimenin kaçıncı geçişi olduğuna dikkat; sıra hem saniyede hem `u`'da artmalı) → `node seslendirme.mjs`.
 6. **Kontrol:** `node render.mjs kontrol` → `kontrol/temas-tablosu.png` (1,5 sn'de bir kare). Özellikle sahne geçişlerinde hayalet bindirmeye (iki sahne yarı saydam üst üste) ve kesilen etiketlere bak; geçişleri sıralı yap.
 7. **Render + ses:** `node render.mjs video` (~1200 kare ≈ 4–5 dk) → `sesler.mjs`'de `OLAYLAR` (u zamanı, ses, seviye) ve `SESLER` (Openverse CC0 kimlikleri; aramak için `https://api.openverse.org/v1/audio/?q=<terim>&license=cc0&page_size=12`) → `node sesler.mjs` → dublaj + efektler + loudnorm (-15 LUFS, 48 kHz) → `out/final.mp4`.
-8. **Teslim:** ffprobe ile süre/akış kontrolü, videoyu **Windows oynatıcısıyla aç** (PowerShell `Invoke-Item "<yol>"`), kısa özet: dosya yolu, süre, harcanan kredi, nasıl değiştirilebileceği. Paylaşım metni istenirse `icerikler/YYYY-AA-GG_<ad>.md`.
+8. **Teslim:** ffprobe ile süre/akış kontrolü, videoyu **Windows oynatıcısıyla aç** (PowerShell `Invoke-Item "<yol>"`), ardından `rehber.md` §7'deki **paylaşım paketi**ni ver (kopyalanacak gönderi metni + adım adım paylaşma; metin `animasyonlar/<ad>/metin.md`'ye de yazılır) ve `rehber.md` §6'daki kayda satır ekle.
 
 Komutları `animasyonlar/<ad>/` içinde, `../../araclar/node/node.exe <script>` ile çalıştır (veya Bash'te `export PATH="<kök>/araclar/node:$PATH"`).
 
@@ -86,7 +91,7 @@ Komutları `animasyonlar/<ad>/` içinde, `../../araclar/node/node.exe <script>` 
 - Türkçe metni **Node fetch** ile gönder (script öyle yapar; Windows'ta curl komut satırı Türkçe karakteri bozar).
 - Duygu etiketleri: `[curious]` soru/kanca · `[excited]` şaşırtıcı an · `[whispers]` sır · `[softly]` kapanış · `[sighs]` · `[laughs]`. Cümle başına; seslendirilmez, transkriptte görünmez. Ayrıca üç nokta ve ünlemle tonlama.
 - Maliyet: ~500 karakter ≈ 650–750 ai33 kredisi; ElevenLabs'te yaklaşık karakter başına 1 kredi. Metin + ayarlar değişmezse script yeniden seslendirmez.
-- Script `seslendirme.js`'ye `window.SES = { sure, harita, onGecikme, kapanis }` yazar. `kapanis` = `[başlangıç, bitiş]` saniye: logo kapanış kartının zamanı (`logo.md`). Son sahne `u = 30`'da biter, kart onun ardından gelir.
+- Script `seslendirme.js`'ye `window.SES = { sure, harita, onGecikme, kapanis, kelimeler }` yazar. `kelimeler` = `[metin, başlangıç sn, bitiş sn]` (video zamanında; altyazı için). `kapanis` = `[başlangıç, bitiş]` saniye: logo kapanış kartının zamanı (`logo.md`). Son sahne `u = 30`'da biter, kart onun ardından gelir.
 - Transkript bazen iki kelimeyi birleştirir ("trafo da" → "Trafoda"); çapa seçerken buna dikkat.
 
 ---
@@ -115,6 +120,9 @@ README.md                kullanıcı için başlangıç kılavuzu
 .env                     AI33_API_KEY, ELEVENLABS_API_KEY (gizli, yalnızca bu bilgisayarda)
 (repoda) ayarlar.json + seslendirme.mjs   seslendirme ayarları ve scripti (yerel ayarlar.json kullanılmaz)
 animasyonlar/<ad>/       her video: stil-prompt.md, index.html, render.mjs, seslendirme.mjs, sesler.mjs, out/final.mp4
+gorseller/<tarih>_<ad>/  her görsel/carousel: index.html, gorsel-render.mjs, out/*.png, out/carousel.pdf, metin.md
+(repoda) gorsel.md, gorsel-render.mjs   görsel/carousel/story kuralları (Solarinsider, site teması) + render scripti
+(repoda) strateji.md      içerik stratejisi, konu kontrolü, platform uygunluğu (video + görsel)
 kaynaklar/referans/      kullanıcının verdiği görseller
 kaynaklar/muzik, sfx/    kodla üretilmiş telifsiz müzik ve efektler
 icerikler/               paylaşım metinleri, performans kaydı
