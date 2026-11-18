@@ -48,7 +48,7 @@ Takip etme sebebini **düzen** yaratır. İçerikler 5 sabit seriden birine gire
 | **Piyasa Notu** | Geçen hafta elektrik piyasasında ne oldu: en düşük/sıfır fiyatlı saatler, dikkat çeken değişim. Veri EPİAŞ Şeffaflık Platformu ya da güvenilir haber kaynağından doğrulanır; bulunamazsa o hafta başka seri. | Carousel | Site teması (`gorsel.md`), rozet `PİYASA` |
 | **Ne Değişti?** | Yeni yönetmelik / EPDK kararı: ne değişti, kimi etkiliyor, ne zaman yürürlükte | Carousel (önemliyse ayrıca kısa video, Kinetik Tipografi) | Site teması, rozet `YÖNETMELİK` |
 | **Neden?** | Sezgiye ters mekanizmalar, adım adım (§5'teki sıra) | Video | İzometrik Çizim; fizik/kimya konularında Bilim Atlası |
-| **Saha Notu** | Santral işletme ve bakım bilgisi | Dönüşümlü: video (İzometrik) / kontrol listesi carousel | Rozet `SAHA NOTU` |
+| **Saha Notu** | Santral işletme ve bakım bilgisi | Dönüşümlü: video (İzometrik; montaj, bağlantı, yük yolu gibi fiziksel detaylarda 3D Maket) / kontrol listesi carousel | Rozet `SAHA NOTU` |
 | **Rakamla** | Tek bir doğrulanmış rakamın hikâyesi | Tek görsel ya da kısa video (Parçacık / Düz Vektör) | Rozet `HESAP` ya da `BİLİYOR MUYDUNUZ` |
 
 Videolarda seri adı açılışta küçük bir etiket olarak (ör. `NEDEN? · 03`) ekranda görünür; kancanın önüne geçmez. Bir serinin stili değişmez; kullanıcı açıkça başka stil isterse o videoda uygula.

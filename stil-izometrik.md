@@ -20,7 +20,7 @@ Keep the creative work original and specific to the configured subject; do not r
 
 - Storyboard: {{STORYBOARD}}
 - Voiceover: {{SES}}
-- Subtitles: Disabled
+- Subtitles: {{ALTYAZI}}
 - Duration without voiceover: 30 seconds
 - Format: {{BICIM}}
 - Frame rate: 30 fps

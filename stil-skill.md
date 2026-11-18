@@ -49,7 +49,7 @@ Take the style, not the picture. Use the visual language, never the original art
 
 - Storyboard: {{STORYBOARD}}
 - Voiceover: {{SES}}
-- Subtitles: Disabled
+- Subtitles: {{ALTYAZI}}
 - Duration without voiceover: 30 seconds
 - Format: {{BICIM}}
 - Frame rate: 30 fps

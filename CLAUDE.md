@@ -1,6 +1,6 @@
 > **Uzaktan okunan sürüm.** Bu dosya ve stil dosyaları GitHub reposundan okunur; klasörde yerel kopyaları yoktur.
 > Adres kökü (aşağıda **REPO**): `https://raw.githubusercontent.com/haberme00-sudo/icerik_uretimi/main/`
-> Repoda klasör yok, her şey tek seviyede: `CLAUDE.md` (bu dosya), `stil-katalog.md`, `stil-<id>.md` (11 stil), `stil-skill.md`, `logo.md`, `seslendirme.mjs`, `sesler.mjs`, `ayarlar.json`, `gorsel.md`, `gorsel-render.mjs`, `strateji.md`, `rehber.md` (önce bu).
+> Repoda klasör yok, her şey tek seviyede: `CLAUDE.md` (bu dosya), `stil-katalog.md`, `stil-<id>.md` (12 stil), `stil-skill.md`, `maket-3d-index.html` + `maket-3d-sahne.js` + `maket-3d-render.mjs` (3D Maket stilinin örnek uygulaması), `logo.md`, `seslendirme.mjs`, `sesler.mjs`, `ayarlar.json`, `gorsel.md`, `gorsel-render.mjs`, `strateji.md`, `rehber.md` (önce bu).
 > Dosyaları Bash'te `curl -s REPO<dosya>` ile birebir oku (WebFetch özetler, kullanma). Diske veya hafızaya kaydetme; her seferinde repodan yeniden oku.
 
 # Stil Tabanlı Video Üretim Klasörü
@@ -30,7 +30,7 @@ Kullanıcı teknik bilgi sahibi olmayabilir; kısa Türkçe isteklerle çalış�
 
 **Stil seçenekleri kalıbı** (yalnızca kullanıcı stil seçmek isterse; kısa tut, hepsini listele):
 > Hangi stilde olsun? Örneklerini buradan izleyebilirsin: **https://smokich.gosem.dev/stil/#stiller**
-> 1 Kâğıt Poster · 2 Kesik Kâğıt · 3 Konstrüktivist · 4 Bilim Atlası · 5 Risograf · 6 İzometrik Çizim · 7 Düz Vektör · 8 Kinetik Tipografi · 9 Sıvı Cam · 10 ASCII Atlas · 11 Parçacık
+> 1 Kâğıt Poster · 2 Kesik Kâğıt · 3 Konstrüktivist · 4 Bilim Atlası · 5 Risograf · 6 İzometrik Çizim · 7 Düz Vektör · 8 Kinetik Tipografi · 9 Sıvı Cam · 10 ASCII Atlas · 11 Parçacık · 12 3D Maket (gerçekçi 3D teknik model; sitede örneği yok)
 > (Ya da beğendiğin bir görseli at, onun tarzını çıkarayım.)
 
 Gerekirse her stilin bir satırlık tanımını ve "en iyi olduğu konuları" `REPO` + `stil-katalog.md` dosyasından ekle; konuya uyanı öner.
@@ -46,8 +46,8 @@ Gerekirse her stilin bir satırlık tanımını ve "en iyi olduğu konuları" `R
 | Altyazı | **Açık** | Bu kitle videoları çoğunlukla sesi kapalı izler. Kelime zamanları `window.SES.kelimeler`'de (`[metin, başlangıç sn, bitiş sn]`). Ekranda 2–4 kelimelik parçalar, konuşmayla eş zamanlı. Dikeyde y ≈ 1380–1520 bandında, ortalı; Reels arayüzünün kapladığı alt ~320 px'e girmez. Stilin yazı tipi, kalın, zeminle güçlü kontrast (gerekirse yarı saydam koyu/açık şerit). Sahne etiketleriyle çakışmaz, kapanış kartında görünmez. Kullanıcı istemezse kapatılır. |
 
 ### Stil dosyasındaki yer tutucular
-Uzun promptlar: `{{KONU}}` konu metni · `{{STORYBOARD}}` `Enabled`/`Disabled` · `{{SES}}` `Enabled (the recording is in this folder)` / `Disabled` · `{{BICIM}}` `Vertical, 9:16, native resolution 1080 × 1920` (yatayda `Horizontal, 16:9, native resolution 1920 × 1080`) · `{{EFEKT}}` · `{{MUZIK}}`.
-Kısa stil kartları (Kâğıt Poster, Konstrüktivist, Bilim Atlası, ASCII Atlas): `{{KONU}}`, `{{BICIM}}` ve açık olan koşullu satırlar (dosyanın sonundaki yorumda).
+Uzun promptlar: `{{KONU}}` konu metni · `{{STORYBOARD}}` `Enabled`/`Disabled` · `{{SES}}` `Enabled (the recording is in this folder)` / `Disabled` · `{{BICIM}}` `Vertical, 9:16, native resolution 1080 × 1920` (yatayda `Horizontal, 16:9, native resolution 1920 × 1080`) · `{{EFEKT}}` · `{{MUZIK}}` · `{{ALTYAZI}}` `Enabled — word-by-word karaoke caption burned into the video, styled in this style's own material (see CLAUDE.md §2b)` / `Disabled`.
+Kısa stil kartları (Kâğıt Poster, Konstrüktivist, Bilim Atlası, ASCII Atlas): `{{KONU}}`, `{{BICIM}}` ve açık olan koşullu satırlar (dosyanın sonundaki yorumda). Bunlarda da §2b'deki ortak kalıplar geçerlidir.
 Doldurulmuş promptu `animasyonlar/<ad>/stil-prompt.md` olarak kaydet; o videonun tek doğru kaynağı odur.
 
 ---
@@ -63,6 +63,7 @@ Stil promptları (ve `stil` skill'inin ortak gövdesi) başka bir ortam varsayar
 | "Voiceover: the recording is in this folder" | Kayıt yoksa senaryoyu sen yaz (konuya göre, doğru bilgi), §3'teki script ile seslendir |
 | Openverse'ten CC0 ses | Olur — `sesler.mjs`, kaynaklar `CREDITS.md`'ye |
 | "Do not synthesize music" | Müzik açıksa `kaynaklar/muzik/*.wav` (önceden üretilmiş, telifsiz) |
+| Subtitles / SRT indirme / altyazı düğmesi | SRT ve düğme yok. Altyazı açıksa §2b'deki karaoke altyazı kareye çizilir (videoya gömülü) |
 | Konuda başka bir markanın logosu gerekiyorsa | (Solar Insider logosu `logo.md`'de, buna dahil değil.) Kullanıcıdan dosyayı `kaynaklar/referans/` içine koymasını iste |
 
 ---
@@ -80,6 +81,18 @@ Stil promptları (ve `stil` skill'inin ortak gövdesi) başka bir ortam varsayar
 8. **Teslim:** ffprobe ile süre/akış kontrolü, videoyu **Windows oynatıcısıyla aç** (PowerShell `Invoke-Item "<yol>"`), ardından `rehber.md` §7'deki **paylaşım paketi**ni ver (kopyalanacak gönderi metni + adım adım paylaşma; metin `animasyonlar/<ad>/metin.md`'ye de yazılır) ve `rehber.md` §6'daki kayda satır ekle. Sonra `rehber.md` §8'e göre **temizlik onayı** iste. Onay gelirse video ve metni `teslim/` klasörüne taşı, çalışma klasörünü (kodlar, doldurulmuş promptlar, ara dosyalar) sil. Şablon klasörüne asla dokunma.
 
 Komutları `animasyonlar/<ad>/` içinde, `../../araclar/node/node.exe <script>` ile çalıştır (veya Bash'te `export PATH="<kök>/araclar/node:$PATH"`).
+
+**3D Maket stili (Three.js/WebGL) farklı başlar:** şablon klasörü yine kopyalanır, ama `index.html`, `render.mjs` ve sahne kodu repodan gelir: `REPO` + `maket-3d-index.html` → `index.html`, `maket-3d-sahne.js` → `sahne.js`, `maket-3d-render.mjs` → `render.mjs` (`curl -s` ile). Bu render scripti yerel bir sunucu açar (Three.js modülleri file:// ile yüklenmez) ve WebGL için SwiftShader kullanır. Kütüphane ve font hazırlığı `stil-maket-3d.md`'nin "Notes" bölümünde. `maket-3d-sahne.js` çalışan bir örnektir (kiremit çatıya panel montajı): motoru koru, sahneyi konuya göre yeniden yaz. Bu stilde video çizimi daha uzun sürer (~1000 kare ≈ 10–20 dk).
+
+---
+
+## 2b. Ortak anlatım kalıpları (tüm stiller)
+Kullanıcı beğendiği bir reel'deki bu anlatım kalıplarının **her stilde** kullanılmasını istedi (2026-11-18). Görünüş stilden gelir; kalıp ortaktır. Stil promptu bunlarla çelişirse (ör. "Subtitles: Disabled"), bu bölüm kazanır; `logo.md` ve `strateji.md` ise bu bölümden önce gelir. Çalışan örnek: `maket-3d-sahne.js` (`altyazi`, `baslik`, `kameraKur`, `yol` fonksiyonları).
+
+1. **Karaoke altyazı.** Varsayılan ayarlardaki altyazı kuralına ek olarak: anahtar kelimeler (sayı, malzeme, ana kavram; öbek başına en çok 2) söylendiği anda stilin vurgu rengiyle ~0,2 sn'de soldan sağa dolan bir kutuyla işaretlenir. Görünüşü stilden: kâğıt stillerinde kesik kâğıt şerit, risografta üst baskı mürekkebi, cam stilinde buzlu cam plaka, ASCII'de ters video karakter bloğu, parçacıkta ışıyan alt çizgi vb. Transkript yazım hatalarını (düşen şapka "Rüzgar", ünsüz değişimi "kiremite") küçük bir düzeltme tablosuyla ekranda düzelt; çapa kelimesi ise transkriptteki yazımla eşleşmeli. Kinetik Tipografi'de altyazı ayrı bir şerit değil, sahnedeki tipografinin kendisi olabilir; yine de söylenen kelimeyle eşzamanlı vurgu olmalı.
+2. **İki satırlı başlık.** Her sahnenin üstünde küçük bir giriş satırı (soru/bağlam: "Önce kanca:", "Rüzgâr kaldırınca") ve altında kalın, tek fikirli kısa başlık (≤ 18 karakter, en çok 2 satır). İkisi aynı blok; sahne değişince eskisi kısa bir çıkışla gider, yenisi gelir (iki başlık asla üst üste karışmaz). Font/renk stilden: giriş satırı stilin ikincil yüzü (italik serif, el yazısı, mono…), başlık stilin ana yüzü. Dikeyde blok logonun altından (y ≥ 200 px) başlar. Görüntü başlığın altına girmesin: gerekirse başlık arkasına zemin renginde yumuşak bir perde.
+3. **Hiç durmayan kamera, kelimede kesme.** Her sahnede kamera/kompozisyon yavaşça kayar (yaklaşma %5–12, hafif dönüş/pan); tamamen donuk kare yok. Sahne geçişleri, ilgili kelimenin söylendiği ana (çapalar) denk gelen sert kesme ya da hızlı "içine dalma"dır; iki sahnenin yarı saydam üst üste bindiği geçiş yok.
+4. **Gizliyi aç, yolu çiz.** "Bir şey nereden nereye gider / ne neyi taşır" anlatılırken örten katmanlar saydamlaşır, kesit açılır ya da sökülür; sonra yol, durak durak kendini çizen tek renkli bir çizgiyle gösterilir ve her durağa kısa bir etiket gelir. Stilin malzemesiyle: kâğıtta kesik çizgi/iplik, risografta üst baskı şerit, izometrikte kendini çizen akış çizgisi, parçacıkta akan ışık, camda kırılan ışık hattı.
 
 ---
 
@@ -116,7 +129,8 @@ Komutları `animasyonlar/<ad>/` içinde, `../../araclar/node/node.exe <script>` 
 ```
 CLAUDE.md                yalnızca bu uzak kılavuzu okutan kısa yönlendirme
 README.md                kullanıcı için başlangıç kılavuzu
-(repoda) stil-katalog.md, stil-<id>.md, stil-skill.md   11 stil + katalog + resimden stil çıkarma adımları — kaynak: https://smokich.gosem.dev/stil/#stiller
+(repoda) stil-katalog.md, stil-<id>.md, stil-skill.md   12 stil + katalog + resimden stil çıkarma adımları — ilk 11'in kaynağı: https://smokich.gosem.dev/stil/#stiller
+(repoda) maket-3d-index.html, maket-3d-sahne.js, maket-3d-render.mjs   3D Maket stilinin örnek uygulaması (§2)
 (repoda) logo.md          her videoya gömülen Solar Insider logosu + yerleşim kuralları
 .env                     AI33_API_KEY, ELEVENLABS_API_KEY (gizli, yalnızca bu bilgisayarda)
 (repoda) ayarlar.json + seslendirme.mjs   seslendirme ayarları ve scripti (yerel ayarlar.json kullanılmaz)

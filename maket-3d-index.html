@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Panel Sabitleme — 3D Maket</title>
+<style>
+  @font-face { font-family: "Serif"; src: url("./InstrumentSerif-Italic.ttf") format("truetype"); font-style: italic; font-weight: 400; }
+  @font-face { font-family: "Jakarta"; src: url("./PlusJakartaSans.ttf") format("truetype"); font-weight: 200 800; }
+  html, body { margin: 0; background: #000; }
+  canvas#cikti { display: block; width: 1080px; height: 1920px; }
+  #kontrol { position: fixed; left: 12px; bottom: 12px; display: flex; gap: 8px; align-items: center; background: #0008; color: #fff; font: 14px sans-serif; padding: 8px 10px; border-radius: 8px; }
+  #kontrol input { width: 420px; }
+</style>
+<script type="importmap">{ "imports": { "three": "./lib/three.module.js" } }</script>
+</head>
+<body>
+<canvas id="cikti" width="1080" height="1920"></canvas>
+<script src="./seslendirme.js"></script>
+<script type="module" src="./sahne.js"></script>
+</body>
+</html>

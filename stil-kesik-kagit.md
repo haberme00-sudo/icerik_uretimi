@@ -28,7 +28,7 @@ Prioritize visual quality, useful information, and purposeful movement. Keep imp
 
 - Storyboard: {{STORYBOARD}}
 - Voiceover: {{SES}}
-- Subtitles: Disabled
+- Subtitles: {{ALTYAZI}}
 - Duration without voiceover: 30 seconds
 - Format: {{BICIM}}
 - Frame rate: 30 fps

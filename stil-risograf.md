@@ -20,7 +20,7 @@ Create original artwork, scene designs, and code. Do not copy another creator's 
 
 - Storyboard: {{STORYBOARD}}
 - Voiceover: {{SES}}
-- Subtitles: Disabled
+- Subtitles: {{ALTYAZI}}
 - Duration without voiceover: 30 seconds
 - Format: {{BICIM}}
 - Frame rate: 30 fps
